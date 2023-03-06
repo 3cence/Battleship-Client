@@ -1,7 +1,13 @@
 package Battleship.UI;
 
+import EmNet.Event;
+import EmNet.Packet;
+import Network.NetworkHandler;
+import Network.PacketData;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class MainWindow extends JFrame {
     public final static int WELCOME_SCREEN = 0;
@@ -25,6 +31,7 @@ public class MainWindow extends JFrame {
         setContentPane(welcomeScreen.getWelcomeScreen());
         setSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
         setPreferredSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -43,5 +50,14 @@ public class MainWindow extends JFrame {
         return e -> {
             setScreen(screen);
         };
+    }
+    public synchronized Event<Packet> getOnReceiveNewPacket() {
+        return p -> SwingUtilities.invokeLater(() -> {
+            System.out.println(p.getData());
+            List<PacketData> pd = NetworkHandler.extractPacketData(p);
+            if (pd.get(0).type().equals("room_list")) {
+                roomSelection.updateRoomList(pd);
+            }
+        });
     }
 }
