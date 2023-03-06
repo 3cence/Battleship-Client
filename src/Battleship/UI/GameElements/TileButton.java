@@ -38,9 +38,12 @@ public class TileButton extends JButton {
         g.fillRect(0,0, b.width, b.height);
 //        System.out.printf("X: %d, Y: %d, Width:%d, Height: %d, %b\n", b.x, b.y, b.width, b.height, drawCross);
         if (mouseOver) {
-            ((Graphics2D)g).setStroke(new BasicStroke(5));
+            int stroke = 3;
+            ((Graphics2D)g).setStroke(new BasicStroke(stroke));
             g.setColor(Color.RED);
-            g.draw
+            g.drawOval(stroke, stroke, b.width - stroke*2, b.height - stroke*2);
+            g.drawLine(b.width / 5, b.height / 5, b.width - (b.width / 5), b.height - (b.height / 5));
+            g.drawLine(b.width - (b.width / 5), b.height / 5, b.width / 5, b.height - (b.height / 5));
         }
     }
     @Override
