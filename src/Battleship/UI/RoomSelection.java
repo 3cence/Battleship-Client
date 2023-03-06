@@ -31,6 +31,7 @@ public class RoomSelection {
         });
         joinRoomButton.addActionListener(e -> {
             Main.getClient().sendPacket(NetworkHandler.generatePacketData("join_room", roomPacketData.get(roomList.getSelectedIndex()).data().split(",")[0]));
+            MainWindow.getMainWindow().setScreen(MainWindow.GAME_SCREEN);
         });
         nameInput.addFocusListener(new FocusAdapter() {
             @Override
