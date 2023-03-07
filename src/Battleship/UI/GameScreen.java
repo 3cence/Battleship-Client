@@ -1,7 +1,9 @@
 package Battleship.UI;
 
 import Battleship.Game.Board;
+import Battleship.Game.ShipType;
 import Battleship.UI.GameElements.BoardDisplay;
+import Battleship.UI.GameElements.ShipButton;
 import Network.PacketData;
 
 import javax.swing.*;
@@ -13,7 +15,7 @@ import java.util.List;
 public class GameScreen {
     private JPanel gameScreen;
     private JLabel roomInfoLbl, opponentShipsLeftLbl, yourShipsLeftLbl, boardSpacerLabel;
-    private JButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
+    private ShipButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
     private BoardDisplay yourBoard, targetBoard;
 
     public GameScreen() {
@@ -30,11 +32,11 @@ public class GameScreen {
         yourShipsLeftLbl = new JLabel("You: 5/5");
         yourShipsLeftLbl.setFont(f);
         yourShipsLeftLbl.setHorizontalAlignment(SwingConstants.CENTER);
-        carrierBtn = new JButton();
-        battleshipBtn = new JButton();
-        cruiserBtn = new JButton();
-        submarineBtn = new JButton();
-        destroyerBtn = new JButton();
+        carrierBtn = new ShipButton(ShipType.CARRIER);
+        battleshipBtn = new ShipButton(ShipType.BATTLESHIP);
+        cruiserBtn = new ShipButton(ShipType.CRUISER);
+        submarineBtn = new ShipButton(ShipType.SUBMARINE);
+        destroyerBtn = new ShipButton(ShipType.DESTROYER);
         yourBoard = new BoardDisplay(new Board());
         targetBoard = new BoardDisplay(new Board());
         gameScreen.addComponentListener(new ComponentAdapter() {
