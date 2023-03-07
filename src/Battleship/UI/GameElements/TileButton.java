@@ -1,5 +1,7 @@
 package Battleship.UI.GameElements;
 
+import Battleship.Game.ShipType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,7 +9,9 @@ import java.awt.event.MouseEvent;
 
 public class TileButton extends JButton {
     private Color color;
-    private volatile boolean mouseOver = false;
+    private volatile boolean mouseOver = false, isShip = false, isVertical;
+    private ShipType shipType;
+
     public TileButton(Color c) {
         super();
         setTileColor(c);
@@ -16,19 +20,28 @@ public class TileButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 mouseOver = true;
 //                System.out.println("mouse enter");
-                repaint();
+                getParent().repaint();
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 mouseOver = false;
 //                System.out.println("mouse exit");
-                repaint();
+                getParent().repaint();
             }
         });
         repaint();
     }
     public void setTileColor(Color c) {
         color = c;
+    }
+    public void showShip(ShipType s, boolean isVertical) {
+        this.isVertical = isVertical;
+        this.isShip = true;
+        shipType = s;
+    }
+    public void hideShip() {
+        isShip = false;
+        shipType = null;
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -37,6 +50,13 @@ public class TileButton extends JButton {
         Rectangle b = getBounds();
         g.fillRect(0,0, b.width, b.height);
 //        System.out.printf("X: %d, Y: %d, Width:%d, Height: %d, %b\n", b.x, b.y, b.width, b.height, drawCross);
+        if (isShip) {
+            g.setColor(Color.BLACK);
+            if (isVertical)
+                g.fillRect(10, 0, b.width - 10, b.height);
+            else
+                g.fillRect(0, 10, b.width, b.height - 10);
+        }
         if (mouseOver) {
             int stroke = 3;
             ((Graphics2D)g).setStroke(new BasicStroke(stroke));

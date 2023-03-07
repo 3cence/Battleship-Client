@@ -1,5 +1,6 @@
 package Battleship.UI;
 
+import Battleship.Game.Main;
 import EmNet.Event;
 import EmNet.Packet;
 import Network.NetworkHandler;
@@ -31,6 +32,7 @@ public class MainWindow extends JFrame {
         welcomeScreen = new WelcomeScreen();
         roomSelection = new RoomSelection();
         gameScreen = new GameScreen();
+        setTitle("Battleship Client");
         setContentPane(welcomeScreen.getWelcomeScreen());
         setSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
         setPreferredSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
