@@ -20,7 +20,7 @@ public class TileButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 mouseOver = true;
 //                System.out.println("mouse enter");
-                System.out.println(getWidth()+" "+getHeight());
+//                System.out.println(getWidth()+" "+getHeight());
                 getParent().repaint();
             }
             @Override
@@ -39,10 +39,12 @@ public class TileButton extends JButton {
         this.isVertical = isVertical;
         this.isShip = true;
         shipType = s;
+        repaint();
     }
     public void hideShip() {
         isShip = false;
         shipType = null;
+        repaint();
     }
     @Override
     protected void paintComponent(Graphics g) {
