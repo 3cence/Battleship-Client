@@ -25,7 +25,7 @@ public class BoardDisplay extends JPanel {
     protected void paintChildren(Graphics g) {
         super.paintChildren(g);
         g.setColor(Color.blue);
-        ((Graphics2D)g).setStroke(new BasicStroke(10));
+        ((Graphics2D)g).setStroke(new BasicStroke(5));
         g.drawRect(0,0,getWidth(),getHeight());
     }
 

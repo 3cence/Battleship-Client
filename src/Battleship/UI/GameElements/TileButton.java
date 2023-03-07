@@ -20,6 +20,7 @@ public class TileButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 mouseOver = true;
 //                System.out.println("mouse enter");
+                System.out.println(getWidth()+" "+getHeight());
                 getParent().repaint();
             }
             @Override

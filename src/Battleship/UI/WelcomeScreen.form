@@ -10,7 +10,7 @@
       <enabled value="true"/>
       <focusable value="true"/>
       <foreground color="-12742725"/>
-      <preferredSize width="1200" height="800"/>
+      <preferredSize width="1565" height="733"/>
       <requestFocusEnabled value="true"/>
     </properties>
     <border type="none"/>

@@ -8,6 +8,8 @@ import Network.PacketData;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 
 public class MainWindow extends JFrame {
@@ -33,12 +35,21 @@ public class MainWindow extends JFrame {
         roomSelection = new RoomSelection();
         gameScreen = new GameScreen();
         setTitle("Battleship Client");
+        // forgive me for this, too lazy to fix (1565x733) <- this makes boards square
         setContentPane(welcomeScreen.getWelcomeScreen());
         setSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
         setPreferredSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                System.out.println(getWidth()+" "+getHeight());
+                super.componentResized(e);
+            }
+        });
     }
     public void setScreen(int screen) {
         switch (screen) {

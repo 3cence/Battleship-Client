@@ -49,23 +49,22 @@ public class GameScreen {
     }
     private void setupScreen() {
         gameScreen.add(opponentShipsLeft, getConstraints(0, 0,.4,.1));
-        gameScreen.add(yourShipsLeft, getConstraints(1, 0,.4,.1));
-        gameScreen.add(new JLabel(), getConstraints(2, 0,.2,.1));
+        gameScreen.add(yourShipsLeft, getConstraints(2, 0,.4,.1));
+        gameScreen.add(new JLabel(), getConstraints(3, 0,.2,.1));
 
-        double bwx = 1, bwy = 1;
+        double bwx = .6, bwy = .6;
         GridBagConstraints gbc = getConstraints(0, 1, 1, 5, bwx, bwy);
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
         gameScreen.add(targetBoard, gbc);
-        gbc = getConstraints(1, 1, 1, 5, bwx, bwy);
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gameScreen.add(new JLabel(), getConstraints(1,1,.05,.05));
+        gbc = getConstraints(2, 1, 1, 5, bwx, bwy);
         gameScreen.add(yourBoard, gbc);
 
         double wx = .2, wy = .2;
-        gameScreen.add(carrierBtn, getConstraints(2,1,1,1, wx, wy));
-        gameScreen.add(battleshipBtn, getConstraints(2,2,1,1, wx, wy));
-        gameScreen.add(cruiserBtn, getConstraints(2,3,1,1, wx, wy));
-        gameScreen.add(submarineBtn, getConstraints(2,4,1,1, wx, wy));
-        gameScreen.add(destroyerBtn, getConstraints(2,5,1,1, wx, wy));
+        gameScreen.add(carrierBtn, getConstraints(3,1,1,1, wx, wy));
+        gameScreen.add(battleshipBtn, getConstraints(3,2,1,1, wx, wy));
+        gameScreen.add(cruiserBtn, getConstraints(3,3,1,1, wx, wy));
+        gameScreen.add(submarineBtn, getConstraints(3,4,1,1, wx, wy));
+        gameScreen.add(destroyerBtn, getConstraints(3,5,1,1, wx, wy));
     }
     public JPanel getGameScreen() {
         return gameScreen;
