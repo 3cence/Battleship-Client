@@ -49,22 +49,23 @@ public class TileButton extends JButton {
 //        super.paintComponent(g);
         g.setColor(color);
         Rectangle b = getBounds();
-        g.fillRect(0,0, b.width, b.height);
+        int offset = 0;
+        g.fillRect(offset,offset, b.width + offset, b.height + offset);
 //        System.out.printf("X: %d, Y: %d, Width:%d, Height: %d, %b\n", b.x, b.y, b.width, b.height, drawCross);
         if (isShip) {
             g.setColor(Color.BLACK);
             if (isVertical)
-                g.fillRect(10, 0, b.width - 10, b.height);
+                g.fillRect(10 + offset, offset, b.width - 10 + offset, b.height + offset);
             else
-                g.fillRect(0, 10, b.width, b.height - 10);
+                g.fillRect(offset, 10 + offset, b.width + offset, b.height - 10 + offset);
         }
         if (mouseOver) {
             int stroke = 3;
             ((Graphics2D)g).setStroke(new BasicStroke(stroke));
             g.setColor(Color.RED);
-            g.drawOval(stroke, stroke, b.width - stroke*2, b.height - stroke*2);
-            g.drawLine(b.width / 5, b.height / 5, b.width - (b.width / 5), b.height - (b.height / 5));
-            g.drawLine(b.width - (b.width / 5), b.height / 5, b.width / 5, b.height - (b.height / 5));
+            g.drawOval(stroke + offset, stroke + offset, b.width - stroke*2 + offset, b.height - stroke*2 + offset);
+            g.drawLine(b.width / 5 + offset, b.height / 5 + offset, b.width - (b.width / 5) + offset, b.height - (b.height / 5) + offset);
+            g.drawLine(b.width - (b.width / 5) + offset, b.height / 5 + offset, b.width / 5 + offset, b.height - (b.height / 5) + offset);
         }
     }
     @Override

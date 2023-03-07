@@ -32,9 +32,4 @@ public class BoardDisplay extends JPanel {
     public Board getBoard() {
         return board;
     }
-//    @Override
-//    public Dimension getPreferredSize() {
-//        int s = (Math.min(getWidth(), getHeight()));
-//        return new Dimension(s, s);
-//    }
 }

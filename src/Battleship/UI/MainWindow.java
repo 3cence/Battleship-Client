@@ -33,13 +33,13 @@ public class MainWindow extends JFrame {
     private void init() {
         welcomeScreen = new WelcomeScreen();
         roomSelection = new RoomSelection();
-        gameScreen = new GameScreen();
         setTitle("Battleship Client");
-        // forgive me for this, too lazy to fix (1565x733) <- this makes boards square
+        // forgive me for this, too lazy to fix (1564x737) <- this makes boards square
         setContentPane(welcomeScreen.getWelcomeScreen());
         setSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
         setPreferredSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
 
+        gameScreen = new GameScreen();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
