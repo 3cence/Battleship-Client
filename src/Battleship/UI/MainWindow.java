@@ -1,6 +1,5 @@
 package Battleship.UI;
 
-import Battleship.Game.Main;
 import EmNet.Event;
 import EmNet.Packet;
 import Network.NetworkHandler;

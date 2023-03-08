@@ -12,6 +12,9 @@ public class ShipButton extends JButton {
         setBackground(new Color(61,143,187));
         setText(type.type() + ": " + type.holes() + " Holes");
     }
+    public ShipType getShipType() {
+        return shipType;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         g.setColor(getBackground());

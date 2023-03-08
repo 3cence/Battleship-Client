@@ -33,11 +33,17 @@ public class GameScreen {
         yourShipsLeftLbl.setFont(f);
         yourShipsLeftLbl.setHorizontalAlignment(SwingConstants.CENTER);
         carrierBtn = new ShipButton(ShipType.CARRIER);
+        carrierBtn.addActionListener(e -> yourBoard.getBoard().setSelectedType(carrierBtn.getShipType()));
         battleshipBtn = new ShipButton(ShipType.BATTLESHIP);
+        battleshipBtn.addActionListener(e -> yourBoard.getBoard().setSelectedType(battleshipBtn.getShipType()));
         cruiserBtn = new ShipButton(ShipType.CRUISER);
+        cruiserBtn.addActionListener(e -> yourBoard.getBoard().setSelectedType(cruiserBtn.getShipType()));
         submarineBtn = new ShipButton(ShipType.SUBMARINE);
+        submarineBtn.addActionListener(e -> yourBoard.getBoard().setSelectedType(submarineBtn.getShipType()));
         destroyerBtn = new ShipButton(ShipType.DESTROYER);
+        destroyerBtn.addActionListener(e -> yourBoard.getBoard().setSelectedType(destroyerBtn.getShipType()));
         yourBoard = new BoardDisplay(new Board());
+        yourBoard.setMode(Board.PLAYER_PLACEMENT);
         targetBoard = new BoardDisplay(new Board());
         gameScreen.addComponentListener(new ComponentAdapter() {
             @Override

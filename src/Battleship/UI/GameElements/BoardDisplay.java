@@ -5,6 +5,8 @@ import Battleship.Game.Tile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BoardDisplay extends JPanel {
     private Board board;
@@ -31,5 +33,8 @@ public class BoardDisplay extends JPanel {
 
     public Board getBoard() {
         return board;
+    }
+    public void setMode(int m) {
+        board.setMode(m);
     }
 }

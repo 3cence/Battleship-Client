@@ -57,9 +57,9 @@ public class TileButton extends JButton {
         if (isShip) {
             g.setColor(Color.BLACK);
             if (isVertical)
-                g.fillRect(10 + offset, offset, b.width - 10 + offset, b.height + offset);
+                g.fillRect(10 + offset, offset, b.width - 20 + offset, b.height + offset);
             else
-                g.fillRect(offset, 10 + offset, b.width + offset, b.height - 10 + offset);
+                g.fillRect(offset, 10 + offset, b.width + offset, b.height - 20 + offset);
         }
         if (mouseOver) {
             int stroke = 3;
