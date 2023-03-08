@@ -19,7 +19,7 @@ public class ShipButton extends JButton {
         g.setColor(getForeground());
         FontMetrics fm = getFontMetrics(g.getFont());
         g.setFont(new Font("Copperplate Gothic Bold", Font.BOLD,20));
-        g.drawString(getText(), (getWidth()/2) - (fm.stringWidth(getText())/2),(getHeight() + fm.getHeight())/2);
+        g.drawString(getText(), (getWidth()/2) - (int)(fm.stringWidth(getText())),(getHeight() + fm.getHeight())/2);
     }
     @Override
     protected void paintBorder(Graphics g) {
