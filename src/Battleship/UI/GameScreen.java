@@ -1,15 +1,22 @@
 package Battleship.UI;
 
 import Battleship.Game.Board;
+import Battleship.Game.Main;
+import Battleship.Game.PlacementEntry;
 import Battleship.Game.ShipType;
 import Battleship.UI.GameElements.BoardDisplay;
 import Battleship.UI.GameElements.ShipButton;
+import Network.NetworkHandler;
 import Network.PacketData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.Format;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreen {
@@ -17,6 +24,7 @@ public class GameScreen {
     private JLabel roomInfoLbl, opponentShipsLeftLbl, yourShipsLeftLbl, boardSpacerLabel;
     private ShipButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
     private BoardDisplay yourBoard, targetBoard;
+    private boolean isDonePlacing;
 
     public GameScreen() {
         gameScreen = new JPanel();
@@ -46,9 +54,10 @@ public class GameScreen {
         yourBoard.setMode(Board.PLAYER_PLACEMENT);
         targetBoard = new BoardDisplay(new Board());
         yourBoard.setColorLink(type -> {
-            for (ShipType s: yourBoard.getBoard().getShipPlacements())
-                System.out.println(s.type());
-
+//            for (PlacementEntry s: yourBoard.getBoard().getShipPlacements())
+//                System.out.println(s.type());
+            if (yourBoard.getBoard().getShipPlacements().size() == 5)
+                isDonePlacing = true;
             if (type.equals(ShipType.CARRIER))
                 carrierBtn.setEnabled(!carrierBtn.isEnabled());
             if (type.equals(ShipType.BATTLESHIP))
@@ -67,6 +76,26 @@ public class GameScreen {
                 super.componentResized(e);
             }
         });
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && e.getID() == KeyEvent.KEY_RELEASED) {
+                if (yourBoard.getBoard().getShipPlacements().size() == 5)
+                    isDonePlacing = true;
+                if (isDonePlacing) {
+                    ArrayList<PacketData> packet = new ArrayList<>();
+                    packet.add(new PacketData("ship_placement","5"));
+                    for (PlacementEntry p: yourBoard.getBoard().getShipPlacements()) {
+                        packet.add(new PacketData(p.type().type(), "{" + p.x() + "," + p.y() + "}," + p.isVertical()));
+                    }
+                    Main.getClient().sendPacket(NetworkHandler.generatePacketData(packet));
+                    yourBoard.getBoard().setMode(Board.INACTIVE);
+                    targetBoard.setMode(Board.TARGET_ACTIVE);
+                }
+            }
+            // Return false to allow the event to be dispatched to its intended recipient
+            return false;
+        }});
         setupScreen();
         setShipLabelPolicy();
     }

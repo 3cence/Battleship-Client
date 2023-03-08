@@ -3,7 +3,6 @@ package Battleship.Game;
 import EmNet.Event;
 
 import java.awt.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Board {
@@ -19,14 +18,6 @@ public class Board {
      * true = verticle
      */
     private boolean placementMode = true;
-    private record PlacementEntry(ShipType type, int x, int y) {
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof PlacementEntry)
-                return ((PlacementEntry)obj).type() == type();
-            return false;
-        }
-    }
     private ArrayList<PlacementEntry> shipPlacements;
     public Board() {
         board = new Tile[10][10];
@@ -48,6 +39,9 @@ public class Board {
     public void setMode(int m) {
         boardState = m;
     }
+    public int getMode() {
+        return boardState;
+    }
     public void setColorLink(Event<ShipType> s) {
         colorLink = s;
     }
@@ -57,20 +51,15 @@ public class Board {
     public ShipType getSelectedType() {
         return selectedType;
     }
-    public ArrayList<ShipType> getShipPlacements() {
-        ArrayList<ShipType> list = new ArrayList<>();
-        for (PlacementEntry p: shipPlacements) {
-            list.add(p.type);
-        }
-        return list;
+    public ArrayList<PlacementEntry> getShipPlacements() {
+        return new ArrayList<>(shipPlacements);
     }
     public void toggleRotation() {
         placementMode = !placementMode;
     }
     public void putShip(ShipType type, int x, int y, boolean isProjection) {
-        PlacementEntry placementEntry = new PlacementEntry(type, x, y);
+        PlacementEntry placementEntry = new PlacementEntry(type, x, y, placementMode);
         if (boardState == Board.PLAYER_PLACEMENT && selectedType != null && !shipPlacements.contains(placementEntry)) {
-            System.out.println("Starting placement");
             if (placementMode && y + type.holes() > 10)
                 return;
             else if (!placementMode && x + type.holes() > 10) {
@@ -96,33 +85,30 @@ public class Board {
                     tx++;
             }
             if (!isProjection) {
-                System.out.println("Non projection placement");
                 shipPlacements.add(placementEntry);
                 colorLink.trigger(type);
             }
         }
-//        else {
-//            System.out.printf("%b, %b, %b\n", boardState == Board.PLAYER_PLACEMENT, selectedType != null, !shipPlacements.contains(placementEntry));
-//        }
     }
     public void removeShip(int x, int y, boolean isProjection) {
-        if (!board[y][x].isShip(x, y))
-            return;
-        placementMode = board[y][x].isVertical();
-        ShipType type = board[y][x].getShipType();
-        int tx = x, ty = y;
-        for (int i = 0; i < type.holes(); i++) {
-            if (board[ty][tx].isShip(x, y) && board[ty][tx].isProjection() == isProjection)
-                board[ty][tx].unship();
-            if (placementMode)
-                ty++;
-            else
-                tx++;
-        }
-        if (!isProjection) {
-            System.out.println("REMOVING");
-            shipPlacements.remove(new PlacementEntry(type, x, y));
-            colorLink.trigger(type);
+        if (boardState == Board.PLAYER_PLACEMENT) {
+            if (!board[y][x].isShip(x, y))
+                return;
+            placementMode = board[y][x].isVertical();
+            ShipType type = board[y][x].getShipType();
+            int tx = x, ty = y;
+            for (int i = 0; i < type.holes(); i++) {
+                if (board[ty][tx].isShip(x, y) && board[ty][tx].isProjection() == isProjection)
+                    board[ty][tx].unship();
+                if (placementMode)
+                    ty++;
+                else
+                    tx++;
+            }
+            if (!isProjection) {
+                shipPlacements.remove(new PlacementEntry(type, x, y, placementMode));
+                colorLink.trigger(type);
+            }
         }
     }
 }

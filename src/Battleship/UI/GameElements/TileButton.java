@@ -1,5 +1,6 @@
 package Battleship.UI.GameElements;
 
+import Battleship.Game.Board;
 import Battleship.Game.ShipType;
 
 import javax.swing.*;
@@ -11,23 +12,22 @@ public class TileButton extends JButton {
     private Color color;
     private volatile boolean mouseOver = false, isShip = false, isVertical, isProjection;
     private ShipType shipType;
+    private Board parentBoard;
 
-    public TileButton(Color c) {
+    public TileButton(Board parentBoard, Color c) {
         super();
+        this.parentBoard = parentBoard;
         setTileColor(c);
         isProjection = true;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 mouseOver = true;
-//                System.out.println("mouse enter");
-//                System.out.println(getWidth()+" "+getHeight());
                 getParent().repaint();
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 mouseOver = false;
-//                System.out.println("mouse exit");
                 getParent().repaint();
             }
         });
@@ -51,16 +51,10 @@ public class TileButton extends JButton {
     }
     @Override
     protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
         g.setColor(color);
         Rectangle b = getBounds();
         int offset = 0;
         g.fillRect(offset,offset, b.width + offset, b.height + offset);
-//        System.out.printf("X: %d, Y: %d, Width:%d, Height: %d, %b\n", b.x, b.y, b.width, b.height, drawCross);
-        if(!isProjection) {
-            g.setColor(Color.red);
-            g.drawRect(0, 0, b.width, b.height);
-        }
         if (isShip) {
             g.setColor(Color.BLACK);
             if (isVertical)
@@ -69,12 +63,14 @@ public class TileButton extends JButton {
                 g.fillRect(offset, 10 + offset, b.width + offset, b.height - 20 + offset);
         }
         if (mouseOver) {
-            int stroke = 3;
-            ((Graphics2D)g).setStroke(new BasicStroke(stroke));
-            g.setColor(Color.RED);
-            g.drawOval(stroke + offset, stroke + offset, b.width - stroke*2 + offset, b.height - stroke*2 + offset);
-            g.drawLine(b.width / 5 + offset, b.height / 5 + offset, b.width - (b.width / 5) + offset, b.height - (b.height / 5) + offset);
-            g.drawLine(b.width - (b.width / 5) + offset, b.height / 5 + offset, b.width / 5 + offset, b.height - (b.height / 5) + offset);
+            if (parentBoard.getMode() == Board.TARGET_ACTIVE) {
+                int stroke = 3;
+                ((Graphics2D) g).setStroke(new BasicStroke(stroke));
+                g.setColor(Color.RED);
+                g.drawOval(stroke + offset, stroke + offset, b.width - stroke * 2 + offset, b.height - stroke * 2 + offset);
+                g.drawLine(b.width / 5 + offset, b.height / 5 + offset, b.width - (b.width / 5) + offset, b.height - (b.height / 5) + offset);
+                g.drawLine(b.width - (b.width / 5) + offset, b.height / 5 + offset, b.width / 5 + offset, b.height - (b.height / 5) + offset);
+            }
         }
     }
     @Override
