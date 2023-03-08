@@ -1,7 +1,9 @@
 package Battleship.UI.GameElements;
 
 import Battleship.Game.Board;
+import Battleship.Game.ShipType;
 import Battleship.Game.Tile;
+import EmNet.Event;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,5 +38,8 @@ public class BoardDisplay extends JPanel {
     }
     public void setMode(int m) {
         board.setMode(m);
+    }
+    public void setColorLink(Event<ShipType> e) {
+        board.setColorLink(e);
     }
 }

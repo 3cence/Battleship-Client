@@ -45,6 +45,21 @@ public class GameScreen {
         yourBoard = new BoardDisplay(new Board());
         yourBoard.setMode(Board.PLAYER_PLACEMENT);
         targetBoard = new BoardDisplay(new Board());
+        yourBoard.setColorLink(type -> {
+            for (ShipType s: yourBoard.getBoard().getShipPlacements())
+                System.out.println(s.type());
+
+            if (type.equals(ShipType.CARRIER))
+                carrierBtn.setEnabled(!carrierBtn.isEnabled());
+            if (type.equals(ShipType.BATTLESHIP))
+                battleshipBtn.setEnabled(!battleshipBtn.isEnabled());
+            if (type.equals(ShipType.CRUISER))
+                cruiserBtn.setEnabled(!cruiserBtn.isEnabled());
+            if (type.equals(ShipType.SUBMARINE))
+                submarineBtn.setEnabled(!submarineBtn.isEnabled());
+            if (type.equals(ShipType.DESTROYER))
+                destroyerBtn.setEnabled(!destroyerBtn.isEnabled());
+        });
         gameScreen.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

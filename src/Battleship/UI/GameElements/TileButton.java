@@ -9,12 +9,13 @@ import java.awt.event.MouseEvent;
 
 public class TileButton extends JButton {
     private Color color;
-    private volatile boolean mouseOver = false, isShip = false, isVertical;
+    private volatile boolean mouseOver = false, isShip = false, isVertical, isProjection;
     private ShipType shipType;
 
     public TileButton(Color c) {
         super();
         setTileColor(c);
+        isProjection = true;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -35,15 +36,17 @@ public class TileButton extends JButton {
     public void setTileColor(Color c) {
         color = c;
     }
-    public void showShip(ShipType s, boolean isVertical) {
+    public void showShip(ShipType s, boolean isVertical, boolean isProjection) {
         this.isVertical = isVertical;
         this.isShip = true;
+        this.isProjection = isProjection;
         shipType = s;
         repaint();
     }
     public void hideShip() {
         isShip = false;
         shipType = null;
+        isProjection = true;
         repaint();
     }
     @Override
@@ -54,6 +57,10 @@ public class TileButton extends JButton {
         int offset = 0;
         g.fillRect(offset,offset, b.width + offset, b.height + offset);
 //        System.out.printf("X: %d, Y: %d, Width:%d, Height: %d, %b\n", b.x, b.y, b.width, b.height, drawCross);
+        if(!isProjection) {
+            g.setColor(Color.red);
+            g.drawRect(0, 0, b.width, b.height);
+        }
         if (isShip) {
             g.setColor(Color.BLACK);
             if (isVertical)
