@@ -204,7 +204,8 @@ public class GameScreen {
                 opponentName = pd.get(0).data();
                 break;
             case "game_over":
-                System.out.println("Game Over! You " + pd.get(0).data() + "!");
+                MainWindow.getMainWindow().setScreen(MainWindow.WELCOME_SCREEN);
+                ((WelcomeScreen)MainWindow.getMainWindow().getScreen(MainWindow.WELCOME_SCREEN)).setWelcomeText("You " + pd.get(0).data() + "!");
                 break;
         }
 //        roomInfoLbl.setText(s.toString());

@@ -38,7 +38,7 @@ public class MainWindow extends JFrame {
         setSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
         setPreferredSize(welcomeScreen.getWelcomeScreen().getPreferredSize());
 
-        gameScreen = new GameScreen();
+        welcomeScreen.getPlayBtn().addActionListener(e -> gameScreen = new GameScreen());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -63,6 +63,17 @@ public class MainWindow extends JFrame {
                 break;
         }
         revalidate();
+    }
+    public Object getScreen(int screen) {
+        switch (screen) {
+            case MainWindow.WELCOME_SCREEN:
+                return welcomeScreen;
+            case MainWindow.ROOM_SELECT:
+                return roomSelection;
+            case MainWindow.GAME_SCREEN:
+                return gameScreen;
+        }
+        return null;
     }
     public ActionListener switchScreenListener(int screen) {
         return e -> {
