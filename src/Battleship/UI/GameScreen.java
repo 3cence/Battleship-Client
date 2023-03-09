@@ -172,7 +172,7 @@ public class GameScreen {
             yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_HIT);
         else
             yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_MISS);
-        yourShipsLeftLbl.setText(opponentName + ": " + shipsLeft + "/5");
+        yourShipsLeftLbl.setText("You: " + shipsLeft + "/5");
         gameScreen.repaint();
     }
     private void attackResults(List<PacketData> pd) {
@@ -185,7 +185,7 @@ public class GameScreen {
             targetBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_HIT);
         else
             targetBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_MISS);
-        opponentShipsLeftLbl.setText("You: " + shipsLeft + "/5");
+        opponentShipsLeftLbl.setText(opponentName + ": " + shipsLeft + "/5");
         gameScreen.repaint();
     }
     public void processPacket(List<PacketData> pd) {
