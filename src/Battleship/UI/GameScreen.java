@@ -26,6 +26,7 @@ public class GameScreen {
     private ShipButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
     private BoardDisplay yourBoard, targetBoard;
     private boolean isDonePlacing;
+    private String opponentName;
 
     public GameScreen() {
         gameScreen = new JPanel();
@@ -34,6 +35,7 @@ public class GameScreen {
         gameScreen.setLayout(new GridBagLayout());
         roomInfoLbl = new JLabel();
         boardSpacerLabel = new JLabel();
+        opponentName = "Opponent";
         Font f = new Font("Copperplate Gothic Bold", Font.BOLD,30);
         opponentShipsLeftLbl = new JLabel("Guest: 5/5");
         opponentShipsLeftLbl.setFont(f);
@@ -170,7 +172,7 @@ public class GameScreen {
             yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_HIT);
         else
             yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_MISS);
-        yourShipsLeftLbl.setText("Opponent: " + shipsLeft + "/5");
+        yourShipsLeftLbl.setText(opponentName + ": " + shipsLeft + "/5");
         gameScreen.repaint();
     }
     private void attackResults(List<PacketData> pd) {
@@ -197,6 +199,9 @@ public class GameScreen {
             case "your_turn", "invalid_attack":
                 targetBoard.setMode(Board.TARGET_ACTIVE);
                 System.out.println("Your Turn!");
+                break;
+            case "game_start":
+                opponentName = pd.get(0).data();
                 break;
             case "game_over":
                 System.out.println("Game Over! You " + pd.get(0).data() + "!");
