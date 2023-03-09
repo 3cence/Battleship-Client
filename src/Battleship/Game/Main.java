@@ -9,8 +9,10 @@ public class Main {
         return client;
     }
     public static void main(String[] args) {
-        String ip = "127.0.0.1";
+//        String ip = "127.0.0.1";
         int port = 48863;
+        String ip = args[0];
+//        int port = Integer.parseInt(args[2]);
         client = new Client(ip, port);
         MainWindow mw = MainWindow.getMainWindow();
         client.onReceiveNewPacket(mw.getOnReceiveNewPacket());
