@@ -1,5 +1,8 @@
 package Battleship.UI;
 
+import Battleship.Game.Main;
+import Network.NetworkHandler;
+
 import javax.swing.*;
 public class WelcomeScreen {
     private JButton playButton;
@@ -9,6 +12,7 @@ public class WelcomeScreen {
 
     public WelcomeScreen() {
         playButton.addActionListener(MainWindow.getMainWindow().switchScreenListener(MainWindow.ROOM_SELECT));
+        playButton.addActionListener(e -> Main.getClient().sendPacket(NetworkHandler.generatePacketData("refresh_rooms")));
     }
     public JPanel getWelcomeScreen() {
         return welcomeScreen;

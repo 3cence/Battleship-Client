@@ -76,7 +76,8 @@ public class MainWindow extends JFrame {
             if (pd.get(0).type().equals("room_list")) {
                 roomSelection.updateRoomList(pd);
             }
-            gameScreen.processPacket(pd);
+            else
+                gameScreen.processPacket(pd);
         });
     }
 }

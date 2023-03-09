@@ -6,6 +6,7 @@ import Battleship.Game.PlacementEntry;
 import Battleship.Game.ShipType;
 import Battleship.UI.GameElements.BoardDisplay;
 import Battleship.UI.GameElements.ShipButton;
+import Battleship.UI.GameElements.TileButton;
 import Network.NetworkHandler;
 import Network.PacketData;
 
@@ -53,6 +54,7 @@ public class GameScreen {
         yourBoard = new BoardDisplay(new Board());
         yourBoard.setMode(Board.PLAYER_PLACEMENT);
         targetBoard = new BoardDisplay(new Board());
+        targetBoard.setMode(Board.INACTIVE);
         yourBoard.setColorLink(type -> {
 //            for (PlacementEntry s: yourBoard.getBoard().getShipPlacements())
 //                System.out.println(s.type());
@@ -86,11 +88,10 @@ public class GameScreen {
                     ArrayList<PacketData> packet = new ArrayList<>();
                     packet.add(new PacketData("ship_placement","5"));
                     for (PlacementEntry p: yourBoard.getBoard().getShipPlacements()) {
-                        packet.add(new PacketData(p.type().type(), "{" + p.x() + "," + p.y() + "}," + p.isVertical()));
+                        packet.add(new PacketData(p.type().type(), p.x() + "," + p.y() + "," + p.isVertical()));
                     }
                     Main.getClient().sendPacket(NetworkHandler.generatePacketData(packet));
                     yourBoard.getBoard().setMode(Board.INACTIVE);
-                    targetBoard.setMode(Board.TARGET_ACTIVE);
                 }
             }
             // Return false to allow the event to be dispatched to its intended recipient
@@ -159,10 +160,47 @@ public class GameScreen {
     public JPanel getGameScreen() {
         return gameScreen;
     }
+    private void opponentAttacked(List<PacketData> pd) {
+        String[] data = pd.get(0).data().split(",");
+        int x = Integer.parseInt(data[0]);
+        int y = Integer.parseInt(data[1]);
+        String hitmiss = data[2];
+        int shipsLeft = Integer.parseInt(data[3]);
+        if (hitmiss.equals("hit"))
+            yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_HIT);
+        else
+            yourBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_MISS);
+        yourShipsLeftLbl.setText("Opponent: " + shipsLeft + "/5");
+        gameScreen.repaint();
+    }
+    private void attackResults(List<PacketData> pd) {
+        String[] data = pd.get(0).data().split(",");
+        int x = Integer.parseInt(data[0]);
+        int y = Integer.parseInt(data[1]);
+        String hitmiss = data[2];
+        int shipsLeft = Integer.parseInt(data[3]);
+        if (hitmiss.equals("hit"))
+            targetBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_HIT);
+        else
+            targetBoard.getBoard().getBoard()[y][x].getButton().setTileIcon(TileButton.ICON_MISS);
+        opponentShipsLeftLbl.setText("You: " + shipsLeft + "/5");
+        gameScreen.repaint();
+    }
     public void processPacket(List<PacketData> pd) {
-        StringBuilder s = new StringBuilder();
-        for (PacketData p: pd) {
-            s.append(p.type()).append(": ").append(p.data()).append(", \n");
+        switch (pd.get(0).type()) {
+            case "opponent_attacked":
+                opponentAttacked(pd);
+                break;
+            case "attack_results":
+                attackResults(pd);
+                break;
+            case "your_turn", "invalid_attack":
+                targetBoard.setMode(Board.TARGET_ACTIVE);
+                System.out.println("Your Turn!");
+                break;
+            case "game_over":
+                System.out.println("Game Over! You " + pd.get(0).data() + "!");
+                break;
         }
 //        roomInfoLbl.setText(s.toString());
     }

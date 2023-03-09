@@ -1,11 +1,13 @@
 package Battleship.Game;
 
 import Battleship.UI.GameElements.TileButton;
+import Network.NetworkHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.MissingFormatArgumentException;
 
 public class Tile {
     private TileButton button;
@@ -24,20 +26,24 @@ public class Tile {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    parentBoard.removeShip(x, y, true);
-                    parentBoard.toggleRotation();
-                    parentBoard.putShip(parentBoard.getSelectedType(), x, y, true);
+                if (parentBoard.getMode() == Board.PLAYER_PLACEMENT) {
+                    super.mouseClicked(e);
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        parentBoard.removeShip(x, y, true);
+                        parentBoard.toggleRotation();
+                        parentBoard.putShip(parentBoard.getSelectedType(), x, y, true);
+                    } else if (SwingUtilities.isLeftMouseButton(e)) {
+                        parentBoard.removeShip(x, y, true);
+                        if (parentBoard.getBoard()[y][x].isProjection() && !isShip()) {
+                            parentBoard.putShip(parentBoard.getSelectedType(), x, y, false);
+                        } else {
+                            parentBoard.removeShip(x, y, false);
+                        }
+                    }
                 }
-                else if (SwingUtilities.isLeftMouseButton(e)) {
-                    parentBoard.removeShip(x, y, true);
-                    if (parentBoard.getBoard()[y][x].isProjection() && !isShip()) {
-                        parentBoard.putShip(parentBoard.getSelectedType(), x, y, false);
-                    }
-                    else {
-                        parentBoard.removeShip(x, y, false);
-                    }
+                if (parentBoard.getMode() == Board.TARGET_ACTIVE) {
+                    parentBoard.setMode(Board.INACTIVE);
+                    Main.getClient().sendPacket(NetworkHandler.generatePacketData("attack", x + "," + y));
                 }
             }
             @Override
