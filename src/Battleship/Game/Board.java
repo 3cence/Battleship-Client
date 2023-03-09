@@ -92,6 +92,9 @@ public class Board {
     }
     public void removeShip(int x, int y, boolean isProjection) {
         if (boardState == Board.PLAYER_PLACEMENT) {
+            int[] root = board[y][x].getRootShipTile();
+            x = root[0];
+            y = root[1];
             if (!board[y][x].isShip(x, y))
                 return;
             placementMode = board[y][x].isVertical();

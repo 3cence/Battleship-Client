@@ -69,6 +69,9 @@ public class Tile {
     public boolean isShip(int x, int y) {
         return shipType != null && shipX == x && shipY == y;
     }
+    public int[] getRootShipTile() {
+        return new int[]{shipX, shipY};
+    }
     public boolean isProjection() {
         return isProjection;
     }
