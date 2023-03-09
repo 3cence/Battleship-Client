@@ -25,7 +25,8 @@ public class GameScreen {
     private JLabel roomInfoLbl, opponentShipsLeftLbl, yourShipsLeftLbl, boardSpacerLabel;
     private ShipButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
     private BoardDisplay yourBoard, targetBoard;
-    private boolean isDonePlacing;
+    private boolean isDonePlacing, gameOver;
+    private String gameOverState;
     private String opponentName;
 
     public GameScreen() {
@@ -94,6 +95,10 @@ public class GameScreen {
                     }
                     Main.getClient().sendPacket(NetworkHandler.generatePacketData(packet));
                     yourBoard.getBoard().setMode(Board.INACTIVE);
+                }
+                if (gameOver) {
+                    MainWindow.getMainWindow().setScreen(MainWindow.WELCOME_SCREEN);
+                    ((WelcomeScreen)MainWindow.getMainWindow().getScreen(MainWindow.WELCOME_SCREEN)).setWelcomeText("You " + gameOverState + "!");
                 }
             }
             // Return false to allow the event to be dispatched to its intended recipient
@@ -204,8 +209,9 @@ public class GameScreen {
                 opponentName = pd.get(0).data();
                 break;
             case "game_over":
-                MainWindow.getMainWindow().setScreen(MainWindow.WELCOME_SCREEN);
-                ((WelcomeScreen)MainWindow.getMainWindow().getScreen(MainWindow.WELCOME_SCREEN)).setWelcomeText("You " + pd.get(0).data() + "!");
+                gameOver = true;
+                gameOverState = pd.get(0).data();
+                targetBoard.setMode(Board.INACTIVE);
                 break;
         }
 //        roomInfoLbl.setText(s.toString());
