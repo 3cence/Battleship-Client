@@ -4,6 +4,7 @@ import Battleship.Game.Board;
 import Battleship.Game.Main;
 import Battleship.Game.PlacementEntry;
 import Battleship.Game.ShipType;
+import Battleship.UI.GameElements.BannerPanel;
 import Battleship.UI.GameElements.BoardDisplay;
 import Battleship.UI.GameElements.ShipButton;
 import Battleship.UI.GameElements.TileButton;
@@ -14,14 +15,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreen {
-    private JPanel gameScreen;
+    private BannerPanel gameScreen;
     private JLabel roomInfoLbl, opponentShipsLeftLbl, yourShipsLeftLbl, boardSpacerLabel;
     private ShipButton carrierBtn, battleshipBtn, cruiserBtn, submarineBtn, destroyerBtn;
     private BoardDisplay yourBoard, targetBoard;
@@ -30,7 +29,7 @@ public class GameScreen {
     private String opponentName;
 
     public GameScreen() {
-        gameScreen = new JPanel();
+        gameScreen = new BannerPanel();
         gameScreen.setForeground(new Color(61,143,187));
         gameScreen.setBackground(new Color(61,143,187));
         gameScreen.setLayout(new GridBagLayout());
