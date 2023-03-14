@@ -99,6 +99,7 @@ public class GameScreen {
                 if (gameOver) {
                     MainWindow.getMainWindow().setScreen(MainWindow.WELCOME_SCREEN);
                     ((WelcomeScreen)MainWindow.getMainWindow().getScreen(MainWindow.WELCOME_SCREEN)).setWelcomeText("You " + gameOverState + "!");
+                    gameOver = false;
                 }
             }
             // Return false to allow the event to be dispatched to its intended recipient
