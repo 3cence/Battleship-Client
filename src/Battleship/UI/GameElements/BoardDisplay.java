@@ -26,11 +26,13 @@ public class BoardDisplay extends JPanel {
     @Override
     protected void paintChildren(Graphics g) {
         super.paintChildren(g);
+        paintBoarder(g);
+    }
+    public void paintBoarder(Graphics g) {
         g.setColor(Color.blue);
         ((Graphics2D)g).setStroke(new BasicStroke(5));
         g.drawRect(0,0,getWidth(),getHeight());
     }
-
     public Board getBoard() {
         return board;
     }

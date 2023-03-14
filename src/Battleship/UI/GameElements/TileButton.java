@@ -46,13 +46,13 @@ public class TileButton extends JButton {
         this.isShip = true;
         this.isProjection = isProjection;
         shipType = s;
-        repaint();
+        getParent().repaint();
     }
     public void hideShip() {
         isShip = false;
         shipType = null;
         isProjection = true;
-        repaint();
+        getParent().repaint();
     }
     public void setTileIcon(int i) {
         icon = i;

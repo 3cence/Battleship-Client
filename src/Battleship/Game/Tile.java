@@ -45,6 +45,7 @@ public class Tile {
                     parentBoard.setMode(Board.INACTIVE);
                     Main.getClient().sendPacket(NetworkHandler.generatePacketData("attack", x + "," + y));
                 }
+                button.getParent().repaint();
             }
             @Override
             public void mouseEntered(MouseEvent e) {
